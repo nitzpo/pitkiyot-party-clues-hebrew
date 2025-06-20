@@ -21,7 +21,7 @@ export interface GameState {
   currentTurnScore: number;
   turnTimeLeft: number;
   isPlaying: boolean;
-  gamePhase: 'setup' | 'ready' | 'playing' | 'turnEnd' | 'stageEnd' | 'gameEnd';
+  gamePhase: 'home' | 'setup' | 'ready' | 'playing' | 'turnEnd' | 'stageEnd' | 'gameEnd';
   currentNoteIndex: number;
 }
 
