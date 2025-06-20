@@ -33,7 +33,7 @@ const INITIAL_STATE: GameState = {
   currentTurnScore: 0,
   turnTimeLeft: 60,
   isPlaying: false,
-  gamePhase: 'setup',
+  gamePhase: 'home',
   currentNoteIndex: 0,
 };
 

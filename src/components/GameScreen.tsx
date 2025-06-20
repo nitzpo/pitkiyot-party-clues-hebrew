@@ -50,6 +50,7 @@ const GameScreen: React.FC = () => {
         return <StageEndScreen />;
       case 'gameEnd':
         return <GameEndScreen />;
+      case 'home':
       default:
         return <HomeScreen />;
     }

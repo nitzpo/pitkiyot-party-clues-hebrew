@@ -4,15 +4,13 @@ import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
-import { ArrowRight, Plus, X } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import TeamSetup from '../game/TeamSetup';
 import NotesSetup from '../game/NotesSetup';
 
 const SetupScreen: React.FC = () => {
-  const { gameState, startGame } = useGameState();
+  const { gameState, startGame, updateGameState } = useGameState();
   const { playButtonClick } = useAudio();
   const [setupStep, setSetupStep] = useState<'teams' | 'notes'>('teams');
 
@@ -39,6 +37,11 @@ const SetupScreen: React.FC = () => {
     }
   };
 
+  const handleCancel = () => {
+    playButtonClick();
+    updateGameState({ gamePhase: 'home' });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl p-6 animate-slide-in-right">
@@ -57,11 +60,7 @@ const SetupScreen: React.FC = () => {
             <div className="flex justify-between items-center">
               <Button
                 variant="outline"
-                onClick={() => {
-                  playButtonClick();
-                  // Go back to home
-                  window.location.reload();
-                }}
+                onClick={handleCancel}
               >
                 ביטול
               </Button>
@@ -72,7 +71,7 @@ const SetupScreen: React.FC = () => {
                 className="game-button-primary"
               >
                 הבא
-                <ArrowRight className="mr-2 h-4 w-4" />
+                <ArrowLeft className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </div>
