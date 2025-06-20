@@ -50,40 +50,40 @@ const GameplayScreen: React.FC = () => {
   const isUrgent = gameState.turnTimeLeft <= 10;
 
   return (
-    <div className="h-screen flex flex-col p-4 bg-gradient-to-br from-blue-100 to-orange-100 overflow-hidden">
+    <div className="h-dvh flex flex-col p-2 md:p-4 bg-gradient-to-br from-blue-100 to-orange-100 overflow-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4 shrink-0">
-        <Badge variant="outline" className="text-sm">
+      <div className="flex justify-between items-center mb-2 md:mb-4 shrink-0">
+        <Badge variant="outline" className="text-xs md:text-sm">
           שלב {gameState.currentStage} • {stageNames[gameState.currentStage]}
         </Badge>
-        <Badge variant="outline" className="text-sm">
+        <Badge variant="outline" className="text-xs md:text-sm">
           {currentTeam.name}
         </Badge>
       </div>
 
       {/* Timer and Score */}
-      <div className="text-center mb-4 shrink-0">
-        <div className={`text-4xl md:text-6xl font-bold mb-2 ${isUrgent ? 'timer-urgent' : 'text-game-primary'}`}>
+      <div className="text-center mb-2 md:mb-4 shrink-0">
+        <div className={`text-3xl md:text-6xl font-bold mb-1 md:mb-2 ${isUrgent ? 'timer-urgent' : 'text-game-primary'}`}>
           {formatTime(gameState.turnTimeLeft)}
         </div>
         <div className="flex items-center justify-center gap-2">
-          <Clock className="h-4 w-4" />
-          <span className="text-sm text-muted-foreground">
+          <Clock className="h-3 w-3 md:h-4 md:w-4" />
+          <span className="text-xs md:text-sm text-muted-foreground">
             נקודות בסיבוב: {gameState.currentTurnScore > 0 && <span>+</span>}{gameState.currentTurnScore}
           </span>
         </div>
       </div>
 
       {/* Pause and Abort Controls */}
-      <div className="text-center mb-4 shrink-0">
-        <div className="flex justify-center gap-3">
+      <div className="text-center mb-2 md:mb-4 shrink-0">
+        <div className="flex justify-center gap-2 md:gap-3">
           <Button
             onClick={handlePause}
             variant="outline"
             size="sm"
-            className="gap-2"
+            className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3"
           >
-            {gameState.isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+            {gameState.isPaused ? <Play className="h-3 w-3 md:h-4 md:w-4" /> : <Pause className="h-3 w-3 md:h-4 md:w-4" />}
             {gameState.isPaused ? 'המשך' : 'הפסק'}
           </Button>
           
@@ -92,9 +92,9 @@ const GameplayScreen: React.FC = () => {
               onClick={handleAbortGame}
               variant="destructive"
               size="sm"
-              className="gap-2"
+              className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3"
             >
-              <Home className="h-4 w-4" />
+              <Home className="h-3 w-3 md:h-4 md:w-4" />
               יציאה למסך הבית
             </Button>
           )}
@@ -102,14 +102,14 @@ const GameplayScreen: React.FC = () => {
       </div>
 
       {/* Current Note */}
-      <div className="flex-1 flex items-center justify-center mb-4 min-h-0">
-        <Card className="w-full max-w-md p-6 md:p-8 text-center bg-white shadow-xl border-2 border-game-primary">
-          <div className="text-xl md:text-3xl font-bold text-game-primary mb-4">
+      <div className="flex-1 flex items-center justify-center mb-2 md:mb-4 min-h-0">
+        <Card className="w-full max-w-md p-4 md:p-6 text-center bg-white shadow-xl border-2 border-game-primary mx-2">
+          <div className="text-lg md:text-3xl font-bold text-game-primary mb-2 md:mb-4">
             {gameState.isPaused ? 'המשחק מושהה' : (currentNote?.note || 'אין פתקים נוספים')}
           </div>
           
           {currentNote && !gameState.isPaused && (
-            <div className="text-sm text-muted-foreground">
+            <div className="text-xs md:text-sm text-muted-foreground">
               פתק #{gameState.currentNoteIndex + 1}
             </div>
           )}
@@ -117,30 +117,30 @@ const GameplayScreen: React.FC = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-2 gap-4 shrink-0">
+      <div className="grid grid-cols-2 gap-2 md:gap-4 shrink-0 px-2 md:px-0">
         <Button
           onClick={handleSkip}
-          className="game-button game-button-warning py-6 md:py-8 text-lg md:text-xl"
+          className="game-button game-button-warning py-4 md:py-8 text-base md:text-xl"
           disabled={!currentNote || gameState.isPaused}
         >
-          <X className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+          <X className="ml-1 md:ml-2 h-4 w-4 md:h-6 md:w-6" />
           דלג
-          <div className="text-sm opacity-75">-1</div>
+          <div className="text-xs md:text-sm opacity-75">-1</div>
         </Button>
         
         <Button
           onClick={handleCorrect}
-          className="game-button game-button-success py-6 md:py-8 text-lg md:text-xl"
+          className="game-button game-button-success py-4 md:py-8 text-base md:text-xl"
           disabled={!currentNote || gameState.isPaused}
         >
-          <Check className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+          <Check className="ml-1 md:ml-2 h-4 w-4 md:h-6 md:w-6" />
           נכון!
-          <div className="text-sm opacity-75"><span>+</span>1</div>
+          <div className="text-xs md:text-sm opacity-75"><span>+</span>1</div>
         </Button>
       </div>
 
       {/* Game Info */}
-      <div className="mt-4 text-center text-xs md:text-sm text-muted-foreground shrink-0">
+      <div className="mt-2 md:mt-4 text-center text-xs md:text-sm text-muted-foreground shrink-0">
         <p>
           {gameState.notes.filter(n => !n.guessed && !n.skippedInTurn).length} פתקים זמינים בתור • {gameState.notes.filter(n => !n.guessed).length} פתקים נותרו בשלב
         </p>
