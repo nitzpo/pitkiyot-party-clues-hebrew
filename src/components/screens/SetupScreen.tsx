@@ -43,7 +43,7 @@ const SetupScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="h-dvh flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl p-6 animate-slide-in-right">
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-center mb-2">הגדרת המשחק</h2>
@@ -96,7 +96,7 @@ const SetupScreen: React.FC = () => {
                 disabled={!canStartGame}
                 className="game-button-success text-lg px-8"
               >
-                התחל משחק!
+                התחילו לשחק!
               </Button>
             </div>
             

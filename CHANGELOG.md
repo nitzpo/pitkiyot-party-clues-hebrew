@@ -2,7 +2,34 @@
 
 ## [Unreleased] - 2024-12-19
 
-### 🆕 Latest Updates
+### 🆕 Latest Updates (Most Recent)
+
+#### Mobile & Audio Experience Enhancements
+- **Fixed**: Custom notes reset buttons layout optimized for mobile screens
+- **Removed**: Undo button to prevent button overflow on small screens  
+- **Enhanced**: Button sizing with smaller icons and text for mobile compatibility
+- **Fixed**: Screen height issues on mobile devices using `h-dvh` instead of `min-h-screen`
+- **Improved**: Viewport height now accounts for browser controls (address bar, etc.)
+- **Added**: Ticker sound setting in game settings for granular audio control
+- **Feature**: Ticker sound automatically enables/disables with main sound setting
+- **Enhanced**: Sound management with persistent settings stored in localStorage
+- **Optimized**: Mobile layout across all game screens for better usability
+
+#### Advanced Audio Settings
+- **Added**: Separate ticker sound toggle in settings screen
+- **Feature**: Ticker sounds (playTick/playUrgentTick) can be disabled while keeping other sounds
+- **Enhanced**: Settings automatically link - ticker enables when sound is on, disables when sound is off
+- **Added**: Persistent audio preferences stored in localStorage
+- **Improved**: Sound control with individual setting for each audio type
+- **Added**: Clock icon for ticker sound setting for better visual identification
+
+#### Mobile Responsiveness Improvements  
+- **Updated**: All game screens now use `h-dvh` for proper mobile height calculation
+- **Fixed**: HomeScreen, SetupScreen, ReadyScreen, TurnEndScreen, StageEndScreen, GameEndScreen, RulesScreen, SettingsScreen
+- **Enhanced**: Better mobile experience with screen that fits visible viewport area
+- **Optimized**: Touch interaction and screen real estate usage on mobile devices
+
+### 🆕 Earlier Updates
 
 #### Game Control Enhancements
 - **Added**: Pause/Resume functionality during gameplay with visual feedback

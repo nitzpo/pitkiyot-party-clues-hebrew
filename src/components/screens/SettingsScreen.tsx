@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
 import { Button } from '../ui/button';
@@ -7,13 +6,54 @@ import { Card } from '../ui/card';
 import { Switch } from '../ui/switch';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
-import { ArrowRight, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, Volume2, VolumeX, Clock } from 'lucide-react';
 
 const SettingsScreen: React.FC = () => {
   const { updateGameState } = useGameState();
   const { playButtonClick } = useAudio();
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [hapticEnabled, setHapticEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    const saved = localStorage.getItem('soundEnabled');
+    return saved ? JSON.parse(saved) : true;
+  });
+  const [tickerEnabled, setTickerEnabled] = useState(() => {
+    const saved = localStorage.getItem('tickerEnabled');
+    return saved ? JSON.parse(saved) : true;
+  });
+  const [hapticEnabled, setHapticEnabled] = useState(() => {
+    const saved = localStorage.getItem('hapticEnabled');
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  // Save settings to localStorage
+  useEffect(() => {
+    localStorage.setItem('soundEnabled', JSON.stringify(soundEnabled));
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('tickerEnabled', JSON.stringify(tickerEnabled));
+  }, [tickerEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('hapticEnabled', JSON.stringify(hapticEnabled));
+  }, [hapticEnabled]);
+
+  const handleSoundChange = (enabled: boolean) => {
+    setSoundEnabled(enabled);
+    // When sound is turned on, enable ticker by default
+    // When sound is turned off, disable ticker
+    if (enabled) {
+      setTickerEnabled(true);
+    } else {
+      setTickerEnabled(false);
+    }
+  };
+
+  const handleTickerChange = (enabled: boolean) => {
+    // Only allow ticker to be changed if sound is enabled
+    if (soundEnabled) {
+      setTickerEnabled(enabled);
+    }
+  };
 
   const handleBack = () => {
     playButtonClick();
@@ -21,7 +61,7 @@ const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="h-dvh flex items-center justify-center p-4">
       <Card className="w-full max-w-md p-6 animate-slide-in-right">
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-center mb-2">הגדרות</h2>
@@ -39,7 +79,22 @@ const SettingsScreen: React.FC = () => {
               <Switch
                 id="sound-toggle"
                 checked={soundEnabled}
-                onCheckedChange={setSoundEnabled}
+                onCheckedChange={handleSoundChange}
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                <Clock className="h-5 w-5" />
+                <Label htmlFor="ticker-toggle" className="text-base">
+                  צליל טיק טק
+                </Label>
+              </div>
+              <Switch
+                id="ticker-toggle"
+                checked={tickerEnabled}
+                onCheckedChange={handleTickerChange}
+                disabled={!soundEnabled}
               />
             </div>
 

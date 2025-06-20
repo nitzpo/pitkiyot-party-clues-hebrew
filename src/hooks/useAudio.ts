@@ -1,4 +1,3 @@
-
 import { useCallback, useRef } from 'react';
 
 export const useAudio = () => {
@@ -11,7 +10,19 @@ export const useAudio = () => {
     return audioContextRef.current;
   }, []);
 
+  const isSoundEnabled = useCallback(() => {
+    const saved = localStorage.getItem('soundEnabled');
+    return saved ? JSON.parse(saved) : true;
+  }, []);
+
+  const isTickerEnabled = useCallback(() => {
+    const saved = localStorage.getItem('tickerEnabled');
+    return saved ? JSON.parse(saved) : true;
+  }, []);
+
   const playTone = useCallback((frequency: number, duration: number, type: OscillatorType = 'sine') => {
+    if (!isSoundEnabled()) return;
+    
     try {
       const ctx = getAudioContext();
       const oscillator = ctx.createOscillator();
@@ -31,7 +42,7 @@ export const useAudio = () => {
     } catch (error) {
       console.warn('Audio playback failed:', error);
     }
-  }, [getAudioContext]);
+  }, [getAudioContext, isSoundEnabled]);
 
   const playSuccess = useCallback(() => {
     playTone(523, 0.2); // C5
@@ -47,12 +58,14 @@ export const useAudio = () => {
   }, [playTone]);
 
   const playTick = useCallback(() => {
+    if (!isSoundEnabled() || !isTickerEnabled()) return;
     playTone(800, 0.05, 'square');
-  }, [playTone]);
+  }, [playTone, isSoundEnabled, isTickerEnabled]);
 
   const playUrgentTick = useCallback(() => {
+    if (!isSoundEnabled() || !isTickerEnabled()) return;
     playTone(1000, 0.05, 'square');
-  }, [playTone]);
+  }, [playTone, isSoundEnabled, isTickerEnabled]);
 
   const playWin = useCallback(() => {
     const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6

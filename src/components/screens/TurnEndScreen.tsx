@@ -24,7 +24,7 @@ const TurnEndScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="h-dvh flex items-center justify-center p-4">
       <Card className="w-full max-w-lg text-center p-8 animate-fade-in">
         <div className="mb-6">
           <h2 className="text-3xl font-bold mb-2">סיום תור!</h2>

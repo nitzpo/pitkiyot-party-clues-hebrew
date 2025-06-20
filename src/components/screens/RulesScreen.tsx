@@ -16,7 +16,7 @@ const RulesScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="h-dvh flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl p-6 animate-slide-in-right">
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-center mb-6">חוקי המשחק</h2>

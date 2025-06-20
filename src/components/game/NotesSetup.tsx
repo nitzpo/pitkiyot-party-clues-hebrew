@@ -203,38 +203,27 @@ const NotesSetup: React.FC = () => {
         {/* Custom Notes Management */}
         {customNotes.length > 0 && (
           <div className="space-y-3">
-            <div className="flex gap-2 justify-end flex-row-reverse">
-              <Button
-                onClick={resetCustomNotes}
-                disabled={customNotes.length === 0}
-                size="sm"
-                variant="destructive"
-                className="gap-2"
-              >
-                <Trash2 className="h-4 w-4" />
-                איפוס פתקים מותאמים
-              </Button>
-              
+            <div className="flex gap-2 justify-end">
               <Button
                 onClick={removeLastCustomNote}
                 disabled={customNotes.length === 0}
                 size="sm"
                 variant="outline"
-                className="gap-2"
+                className="gap-2 text-xs"
               >
-                <Undo2 className="h-4 w-4" />
+                <Undo2 className="h-3 w-3" />
                 מחק אחרון
               </Button>
               
               <Button
-                onClick={undoLastNote}
-                disabled={!lastRemovedNote}
+                onClick={resetCustomNotes}
+                disabled={customNotes.length === 0}
                 size="sm"
-                variant="outline"
-                className="gap-2"
+                variant="destructive"
+                className="gap-2 text-xs"
               >
-                <Undo2 className="h-4 w-4" />
-                ביטול מחיקה
+                <Trash2 className="h-3 w-3" />
+                איפוס הכל
               </Button>
             </div>
             

@@ -32,7 +32,7 @@ const ReadyScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="h-dvh flex items-center justify-center p-4">
       <Card className="w-full max-w-lg text-center p-8 animate-slide-in-left">
         <div className="mb-6">
           <Badge variant="outline" className="mb-4 text-lg px-4 py-2">
@@ -77,7 +77,7 @@ const ReadyScreen: React.FC = () => {
             onClick={handleReady}
             className="game-button-success w-full text-2xl py-6"
           >
-            מוכן/ה? התחל!
+            מוכנים? התחילו!
           </Button>
 
           <Button

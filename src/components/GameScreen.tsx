@@ -68,7 +68,7 @@ const GameScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 rtl hebrew-text">
+    <div className="h-dvh bg-gradient-to-br from-blue-50 to-orange-50 rtl hebrew-text">
       {renderScreen()}
     </div>
   );
