@@ -190,7 +190,6 @@ const NotesSetup: React.FC = () => {
               onKeyPress={handleKeyPress}
               placeholder="כתוב פתק..."
               className="flex-1 text-right placeholder:text-right"
-              autoFocus
             />
           </div>
           {noteExistsError && (
