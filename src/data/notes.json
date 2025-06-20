@@ -1,4 +1,3 @@
-```json
 {
   "categories": [
     {"id": "movies", "name_he": "סרטים"},
@@ -596,4 +595,3 @@
     {"note": "הלב", "categories": ["books"]}
   ]
 }
-```
