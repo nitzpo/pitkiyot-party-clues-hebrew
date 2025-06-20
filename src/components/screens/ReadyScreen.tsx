@@ -40,7 +40,7 @@ const ReadyScreen: React.FC = () => {
           </Badge>
           
           <h2 className="text-2xl font-bold mb-2">
-            תורה של {currentTeam.name}
+             התור של {currentTeam.name}
           </h2>
           
           <p className="text-muted-foreground mb-4">
