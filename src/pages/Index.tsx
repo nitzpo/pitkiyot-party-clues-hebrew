@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import GameScreen from '../components/GameScreen';
+import { GameStateProvider } from '../hooks/useGameState';
 
 const Index = () => {
   useEffect(() => {
@@ -10,7 +11,11 @@ const Index = () => {
     document.documentElement.setAttribute('lang', 'he');
   }, []);
 
-  return <GameScreen />;
+  return (
+    <GameStateProvider>
+      <GameScreen />
+    </GameStateProvider>
+  );
 };
 
 export default Index;
