@@ -17,6 +17,9 @@
 - **Improved**: SetupScreen conditionally enables outer scrolling for notes step while keeping teams step centered
 - **Fixed**: Centering and scrolling issues for long content pages like `NotesSetup` and `Rules`.
 - **Improved**: A new layout strategy now keeps content centered, but allows the full page to scroll when content overflows, providing a natural mobile experience.
+- **Fixed**: The `GameEndScreen` is now also scrollable to handle cases with many teams.
+- **Removed**: The team name editing functionality from `TeamSetup` has been removed to simplify the interface.
+- **Fixed**: A bug preventing the deletion of the first two teams has been resolved by improving the state loading logic.
 
 #### Mobile & Audio Experience Enhancements
 - **Fixed**: Custom notes reset buttons layout optimized for mobile screens

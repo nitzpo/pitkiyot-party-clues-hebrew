@@ -5,20 +5,24 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Card } from '../ui/card';
-import { Plus, X, Edit2 } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 
 const TeamSetup: React.FC = () => {
-  const { gameState, addTeam, removeTeam, updateTeamName } = useGameState();
+  const { gameState, addTeam, removeTeam } = useGameState();
   const { playButtonClick } = useAudio();
   const [newTeamName, setNewTeamName] = useState('');
-  const [editingTeamId, setEditingTeamId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Load saved team names on component mount
   useEffect(() => {
+    // Prevent adding teams if they already exist in the state
+    if (isLoaded || gameState.teams.length > 0) {
+      setIsLoaded(true);
+      return;
+    }
+
     const savedTeams = localStorage.getItem('pitkiyot-team-names');
-    if (savedTeams && gameState.teams.length === 0) {
+    if (savedTeams) {
       try {
         const teamNames: string[] = JSON.parse(savedTeams);
         teamNames.forEach(name => {
@@ -31,11 +35,11 @@ const TeamSetup: React.FC = () => {
       }
     }
     setIsLoaded(true);
-  }, [addTeam, gameState.teams.length]);
+  }, [addTeam, isLoaded, gameState.teams.length]);
 
-  // Auto-save team names whenever they change (but only after initial load)
+  // Auto-save team names whenever they change
   useEffect(() => {
-    if (isLoaded && gameState.teams.length > 0) {
+    if (isLoaded) {
       const teamNames = gameState.teams.map(team => team.name);
       localStorage.setItem('pitkiyot-team-names', JSON.stringify(teamNames));
     }
@@ -53,24 +57,6 @@ const TeamSetup: React.FC = () => {
     if (e.key === 'Enter') {
       handleAddTeam();
     }
-  };
-
-  const handleEditStart = (teamId: string, currentName: string) => {
-    setEditingTeamId(teamId);
-    setEditingName(currentName);
-  };
-
-  const handleEditSave = () => {
-    if (editingTeamId && editingName.trim()) {
-      updateTeamName(editingTeamId, editingName.trim());
-      setEditingTeamId(null);
-      setEditingName('');
-    }
-  };
-
-  const handleEditCancel = () => {
-    setEditingTeamId(null);
-    setEditingName('');
   };
 
   return (
@@ -117,48 +103,20 @@ const TeamSetup: React.FC = () => {
                     <div className="w-8 h-8 rounded-full bg-game-primary text-white flex items-center justify-center font-bold">
                       {index + 1}
                     </div>
-                    {editingTeamId === team.id ? (
-                      <div className="flex gap-2 flex-1">
-                        <Input
-                          value={editingName}
-                          onChange={(e) => setEditingName(e.target.value)}
-                          onKeyPress={(e) => e.key === 'Enter' && handleEditSave()}
-                          className="flex-1 text-right"
-                          autoFocus
-                        />
-                        <Button size="sm" onClick={handleEditSave} className="game-button-success">
-                          ✓
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={handleEditCancel}>
-                          ✕
-                        </Button>
-                      </div>
-                    ) : (
-                      <span className="font-medium">{team.name}</span>
-                    )}
+                    <span className="font-medium">{team.name}</span>
                   </div>
                   
                   {/* Action buttons on the left */}
-                  {editingTeamId !== team.id && (
-                    <div className="flex gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleEditStart(team.id, team.name)}
-                        className="text-blue-600 hover:text-blue-700"
-                      >
-                        <Edit2 className="h-3 w-3" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => { playButtonClick(); removeTeam(team.id); }}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  )}
+                  <div className="flex gap-1">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => { playButtonClick(); removeTeam(team.id); }}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </Card>
             ))}
