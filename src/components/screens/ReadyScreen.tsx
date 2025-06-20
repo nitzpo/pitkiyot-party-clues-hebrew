@@ -79,15 +79,6 @@ const ReadyScreen: React.FC = () => {
           >
             מוכנים? התחילו!
           </Button>
-
-          <Button
-            onClick={handleAbortGame}
-            variant="outline"
-            className="w-full gap-2"
-          >
-            <Home className="h-4 w-4" />
-            יציאה למסך הבית
-          </Button>
         </div>
 
         <div className="mt-6 text-xs text-muted-foreground">

@@ -300,11 +300,14 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         };
       }
 
+      const shuffledNotes = shuffleArray(prev.notes);
+
       return {
         ...prev,
         currentTeamIndex: (prev.currentTeamIndex + 1) % prev.teams.length,
         gamePhase: 'ready',
-        currentTurnScore: 0
+        currentTurnScore: 0,
+        notes: shuffledNotes
       };
     });
   }, []);
