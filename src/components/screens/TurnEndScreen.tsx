@@ -32,7 +32,7 @@ const TurnEndScreen: React.FC = () => {
         {/* Turn Results */}
         <Card className="p-6 mb-6 bg-blue-50">
           <div className="text-4xl font-bold text-game-primary mb-2">
-            {gameState.currentTurnScore > 0 ? '+' : ''}{gameState.currentTurnScore}
+            {gameState.currentTurnScore > 0 && <span>+</span>}{gameState.currentTurnScore}
           </div>
           <p className="text-blue-800">נקודות בתור זה</p>
         </Card>

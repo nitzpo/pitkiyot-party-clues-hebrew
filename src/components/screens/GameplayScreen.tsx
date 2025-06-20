@@ -53,7 +53,7 @@ const GameplayScreen: React.FC = () => {
         <div className="flex items-center justify-center gap-2">
           <Clock className="h-4 w-4" />
           <span className="text-sm text-muted-foreground">
-            נקודות בסיבוב: {gameState.currentTurnScore > 0 ? '+' : ''}{gameState.currentTurnScore}
+            נקודות בסיבוב: {gameState.currentTurnScore > 0 && <span>+</span>}{gameState.currentTurnScore}
           </span>
         </div>
       </div>
@@ -92,14 +92,14 @@ const GameplayScreen: React.FC = () => {
         >
           <Check className="ml-2 h-6 w-6" />
           נכון!
-          <div className="text-sm opacity-75">+1</div>
+          <div className="text-sm opacity-75"><span>+</span>1</div>
         </Button>
       </div>
 
       {/* Game Info */}
       <div className="mt-4 text-center text-sm text-muted-foreground">
         <p>
-          {gameState.notes.filter(n => !n.guessed).length} פתקים נותרו בשלב
+          {gameState.notes.filter(n => !n.guessed && !n.skippedInTurn).length} פתקים זמינים בתור • {gameState.notes.filter(n => !n.guessed).length} פתקים נותרו בשלב
         </p>
       </div>
     </div>

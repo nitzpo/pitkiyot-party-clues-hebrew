@@ -10,6 +10,7 @@ export interface Note {
   note: string;
   categories: string[];
   guessed?: boolean;
+  skippedInTurn?: boolean; // Track if note was skipped in current turn
 }
 
 export interface GameState {
@@ -92,7 +93,7 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
   const setNotes = useCallback((notes: Note[]) => {
     setGameState(prev => ({
       ...prev,
-      notes: notes.map(note => ({ ...note, guessed: false }))
+      notes: notes.map(note => ({ ...note, guessed: false, skippedInTurn: false }))
     }));
   }, []);
 
@@ -105,14 +106,17 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
       currentTurnScore: 0,
       currentNoteIndex: 0,
       turnTimeLeft: 60,
-      notes: prev.notes.map(note => ({ ...note, guessed: false }))
+      notes: prev.notes.map(note => ({ ...note, guessed: false, skippedInTurn: false }))
     }));
   }, []);
 
   const startTurn = useCallback(() => {
     setGameState(prev => {
-      const unguessedNotes = prev.notes.filter(note => !note.guessed);
-      if (unguessedNotes.length === 0) {
+      // Clear skipped flags for new turn
+      const notesWithClearedSkips = prev.notes.map(note => ({ ...note, skippedInTurn: false }));
+      const availableNotes = notesWithClearedSkips.filter(note => !note.guessed);
+      
+      if (availableNotes.length === 0) {
         // Stage complete
         return {
           ...prev,
@@ -120,14 +124,15 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         };
       }
 
-      const firstUnguessedIndex = prev.notes.findIndex(note => !note.guessed);
+      const firstAvailableIndex = notesWithClearedSkips.findIndex(note => !note.guessed);
       return {
         ...prev,
+        notes: notesWithClearedSkips,
         gamePhase: 'playing',
         isPlaying: true,
         turnTimeLeft: 60,
         currentTurnScore: 0,
-        currentNoteIndex: firstUnguessedIndex
+        currentNoteIndex: firstAvailableIndex
       };
     });
   }, []);
@@ -137,13 +142,43 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
       const newNotes = [...prev.notes];
       newNotes[prev.currentNoteIndex] = { ...newNotes[prev.currentNoteIndex], guessed: true };
       
-      const nextUnguessedIndex = newNotes.findIndex((note, index) => 
-        index > prev.currentNoteIndex && !note.guessed
+      // Find next available note (not guessed and not skipped in this turn)
+      const nextAvailableIndex = newNotes.findIndex((note, index) => 
+        index > prev.currentNoteIndex && !note.guessed && !note.skippedInTurn
       );
       
-      const finalNextIndex = nextUnguessedIndex === -1 
-        ? newNotes.findIndex(note => !note.guessed)
-        : nextUnguessedIndex;
+      const finalNextIndex = nextAvailableIndex === -1 
+        ? newNotes.findIndex(note => !note.guessed && !note.skippedInTurn)
+        : nextAvailableIndex;
+
+      const availableNotes = newNotes.filter(note => !note.guessed && !note.skippedInTurn);
+      
+      // Check if no more notes available in this turn
+      if (availableNotes.length === 0) {
+        // End turn immediately
+        const newTeams = [...prev.teams];
+        newTeams[prev.currentTeamIndex].score += prev.currentTurnScore + 1;
+        
+        // Check if stage is complete (no unguessed notes)
+        const unguessedNotes = newNotes.filter(note => !note.guessed);
+        if (unguessedNotes.length === 0) {
+          return {
+            ...prev,
+            notes: newNotes,
+            teams: newTeams,
+            gamePhase: 'stageEnd',
+            isPlaying: false
+          };
+        }
+        
+        return {
+          ...prev,
+          notes: newNotes,
+          teams: newTeams,
+          gamePhase: 'turnEnd',
+          isPlaying: false
+        };
+      }
 
       return {
         ...prev,
@@ -156,16 +191,38 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
 
   const skipNote = useCallback(() => {
     setGameState(prev => {
-      const nextUnguessedIndex = prev.notes.findIndex((note, index) => 
-        index > prev.currentNoteIndex && !note.guessed
+      const newNotes = [...prev.notes];
+      newNotes[prev.currentNoteIndex] = { ...newNotes[prev.currentNoteIndex], skippedInTurn: true };
+      
+      // Find next available note (not guessed and not skipped in this turn)
+      const nextAvailableIndex = newNotes.findIndex((note, index) => 
+        index > prev.currentNoteIndex && !note.guessed && !note.skippedInTurn
       );
       
-      const finalNextIndex = nextUnguessedIndex === -1 
-        ? prev.notes.findIndex(note => !note.guessed)
-        : nextUnguessedIndex;
+      const finalNextIndex = nextAvailableIndex === -1 
+        ? newNotes.findIndex(note => !note.guessed && !note.skippedInTurn)
+        : nextAvailableIndex;
+
+      const availableNotes = newNotes.filter(note => !note.guessed && !note.skippedInTurn);
+      
+      // Check if no more notes available in this turn
+      if (availableNotes.length === 0) {
+        // End turn immediately
+        const newTeams = [...prev.teams];
+        newTeams[prev.currentTeamIndex].score += prev.currentTurnScore - 1;
+        
+        return {
+          ...prev,
+          notes: newNotes,
+          teams: newTeams,
+          gamePhase: 'turnEnd',
+          isPlaying: false
+        };
+      }
 
       return {
         ...prev,
+        notes: newNotes,
         currentTurnScore: prev.currentTurnScore - 1,
         currentNoteIndex: finalNextIndex === -1 ? prev.currentNoteIndex : finalNextIndex
       };
@@ -223,7 +280,7 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         currentTeamIndex: 0,
         currentTurnScore: 0,
         currentNoteIndex: 0,
-        notes: prev.notes.map(note => ({ ...note, guessed: false }))
+        notes: prev.notes.map(note => ({ ...note, guessed: false, skippedInTurn: false }))
       };
     });
   }, []);
