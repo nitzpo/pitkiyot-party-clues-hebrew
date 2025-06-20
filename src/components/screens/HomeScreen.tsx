@@ -14,6 +14,16 @@ const HomeScreen: React.FC = () => {
     updateGameState({ gamePhase: 'setup' });
   };
 
+  const handleRules = () => {
+    playButtonClick();
+    updateGameState({ gamePhase: 'rules' });
+  };
+
+  const handleSettings = () => {
+    playButtonClick();
+    updateGameState({ gamePhase: 'settings' });
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md text-center p-8 animate-fade-in">
@@ -47,10 +57,7 @@ const HomeScreen: React.FC = () => {
           <Button
             variant="outline"
             className="game-button w-full text-lg"
-            onClick={() => {
-              playButtonClick();
-              // TODO: Show rules modal
-            }}
+            onClick={handleRules}
           >
             חוקים
           </Button>
@@ -58,10 +65,7 @@ const HomeScreen: React.FC = () => {
           <Button
             variant="ghost"
             className="game-button w-full text-lg"
-            onClick={() => {
-              playButtonClick();
-              // TODO: Show settings modal
-            }}
+            onClick={handleSettings}
           >
             הגדרות
           </Button>

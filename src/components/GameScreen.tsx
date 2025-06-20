@@ -9,6 +9,8 @@ import GameplayScreen from './screens/GameplayScreen';
 import TurnEndScreen from './screens/TurnEndScreen';
 import StageEndScreen from './screens/StageEndScreen';
 import GameEndScreen from './screens/GameEndScreen';
+import RulesScreen from './screens/RulesScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
 const GameScreen: React.FC = () => {
   const { gameState, decrementTimer } = useGameState();
@@ -50,6 +52,10 @@ const GameScreen: React.FC = () => {
         return <StageEndScreen />;
       case 'gameEnd':
         return <GameEndScreen />;
+      case 'rules':
+        return <RulesScreen />;
+      case 'settings':
+        return <SettingsScreen />;
       case 'home':
       default:
         return <HomeScreen />;
