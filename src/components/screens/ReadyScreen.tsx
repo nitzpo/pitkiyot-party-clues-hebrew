@@ -1,13 +1,13 @@
-
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
+import { Home } from 'lucide-react';
 
 const ReadyScreen: React.FC = () => {
-  const { gameState, startTurn } = useGameState();
+  const { gameState, startTurn, updateGameState } = useGameState();
   const { playButtonClick } = useAudio();
 
   const currentTeam = gameState.teams[gameState.currentTeamIndex];
@@ -24,6 +24,11 @@ const ReadyScreen: React.FC = () => {
   const handleReady = () => {
     playButtonClick();
     startTurn();
+  };
+
+  const handleAbortGame = () => {
+    playButtonClick();
+    updateGameState({ gamePhase: 'home' });
   };
 
   return (
@@ -67,12 +72,23 @@ const ReadyScreen: React.FC = () => {
           </div>
         </div>
 
-        <Button
-          onClick={handleReady}
-          className="game-button-success w-full text-2xl py-6"
-        >
-          מוכן/ה? התחל!
-        </Button>
+        <div className="space-y-3">
+          <Button
+            onClick={handleReady}
+            className="game-button-success w-full text-2xl py-6"
+          >
+            מוכן/ה? התחל!
+          </Button>
+
+          <Button
+            onClick={handleAbortGame}
+            variant="outline"
+            className="w-full gap-2"
+          >
+            <Home className="h-4 w-4" />
+            יציאה למסך הבית
+          </Button>
+        </div>
 
         <div className="mt-6 text-xs text-muted-foreground">
           העבר את הטלפון לשחקן שנותן רמזים

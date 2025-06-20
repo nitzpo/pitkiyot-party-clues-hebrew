@@ -21,6 +21,7 @@ export interface GameState {
   currentTurnScore: number;
   turnTimeLeft: number;
   isPlaying: boolean;
+  isPaused: boolean;
   gamePhase: 'home' | 'setup' | 'ready' | 'playing' | 'turnEnd' | 'stageEnd' | 'gameEnd' | 'rules' | 'settings';
   currentNoteIndex: number;
 }
@@ -33,6 +34,7 @@ const INITIAL_STATE: GameState = {
   currentTurnScore: 0,
   turnTimeLeft: 60,
   isPlaying: false,
+  isPaused: false,
   gamePhase: 'home',
   currentNoteIndex: 0,
 };
@@ -47,6 +49,8 @@ interface GameStateContextType {
   setNotes: (notes: Note[]) => void;
   startGame: () => void;
   startTurn: () => void;
+  pauseGame: () => void;
+  resumeGame: () => void;
   correctGuess: () => void;
   skipNote: () => void;
   endTurn: () => void;
@@ -58,6 +62,16 @@ interface GameStateContextType {
 
 // Create context
 const GameStateContext = createContext<GameStateContextType | undefined>(undefined);
+
+// Utility function to shuffle array
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
 
 // Provider component
 export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -91,24 +105,35 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
   }, []);
 
   const setNotes = useCallback((notes: Note[]) => {
-    setGameState(prev => ({
-      ...prev,
-      notes: notes.map(note => ({ ...note, guessed: false, skippedInTurn: false }))
-    }));
+    // Shuffle the notes before setting them
+    const shuffledNotes = [...notes].sort(() => Math.random() - 0.5);
+    setGameState(prev => ({ ...prev, notes: shuffledNotes }));
   }, []);
 
   const startGame = useCallback(() => {
-    setGameState(prev => ({
-      ...prev,
-      gamePhase: 'ready',
-      currentStage: 1,
-      currentTeamIndex: 0,
-      currentTurnScore: 0,
-      currentNoteIndex: 0,
-      turnTimeLeft: 60,
-      notes: prev.notes.map(note => ({ ...note, guessed: false, skippedInTurn: false }))
-    }));
-  }, []);
+    if (gameState.teams.length >= 2 && gameState.notes.length > 0) {
+      // Reset all notes to unguessed state and shuffle them again
+      const resetNotes = gameState.notes.map(note => ({ 
+        ...note, 
+        guessed: false, 
+        skippedInTurn: false 
+      }));
+      const shuffledNotes = [...resetNotes].sort(() => Math.random() - 0.5);
+      
+      setGameState(prev => ({ 
+        ...prev, 
+        notes: shuffledNotes,
+        currentStage: 1,
+        currentTeamIndex: 0,
+        currentTurnScore: 0,
+        turnTimeLeft: 60,
+        isPlaying: false,
+        isPaused: false,
+        gamePhase: 'ready',
+        currentNoteIndex: 0
+      }));
+    }
+  }, [gameState.teams, gameState.notes]);
 
   const startTurn = useCallback(() => {
     setGameState(prev => {
@@ -130,11 +155,28 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         notes: notesWithClearedSkips,
         gamePhase: 'playing',
         isPlaying: true,
+        isPaused: false,
         turnTimeLeft: 60,
         currentTurnScore: 0,
         currentNoteIndex: firstAvailableIndex
       };
     });
+  }, []);
+
+  const pauseGame = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      isPaused: true,
+      isPlaying: false
+    }));
+  }, []);
+
+  const resumeGame = useCallback(() => {
+    setGameState(prev => ({
+      ...prev,
+      isPaused: false,
+      isPlaying: true
+    }));
   }, []);
 
   const correctGuess = useCallback(() => {
@@ -167,7 +209,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
             notes: newNotes,
             teams: newTeams,
             gamePhase: 'stageEnd',
-            isPlaying: false
+            isPlaying: false,
+            isPaused: false
           };
         }
         
@@ -176,7 +219,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
           notes: newNotes,
           teams: newTeams,
           gamePhase: 'turnEnd',
-          isPlaying: false
+          isPlaying: false,
+          isPaused: false
         };
       }
 
@@ -216,7 +260,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
           notes: newNotes,
           teams: newTeams,
           gamePhase: 'turnEnd',
-          isPlaying: false
+          isPlaying: false,
+          isPaused: false
         };
       }
 
@@ -238,7 +283,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         ...prev,
         teams: newTeams,
         gamePhase: 'turnEnd',
-        isPlaying: false
+        isPlaying: false,
+        isPaused: false
       };
     });
   }, []);
@@ -273,6 +319,9 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         };
       }
 
+      // Shuffle notes for new stage
+      const shuffledNotes = shuffleArray(prev.notes).map(note => ({ ...note, guessed: false, skippedInTurn: false }));
+      
       return {
         ...prev,
         currentStage: prev.currentStage + 1,
@@ -280,7 +329,7 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         currentTeamIndex: 0,
         currentTurnScore: 0,
         currentNoteIndex: 0,
-        notes: prev.notes.map(note => ({ ...note, guessed: false, skippedInTurn: false }))
+        notes: shuffledNotes
       };
     });
   }, []);
@@ -301,7 +350,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
           teams: newTeams,
           turnTimeLeft: 0,
           gamePhase: 'turnEnd',
-          isPlaying: false
+          isPlaying: false,
+          isPaused: false
         };
       }
       return {
@@ -320,6 +370,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
     setNotes,
     startGame,
     startTurn,
+    pauseGame,
+    resumeGame,
     correctGuess,
     skipNote,
     endTurn,

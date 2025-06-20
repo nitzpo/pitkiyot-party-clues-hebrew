@@ -23,7 +23,7 @@ const GameScreen: React.FC = () => {
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    if (gameState.isPlaying && gameState.turnTimeLeft > 0) {
+    if (gameState.isPlaying && !gameState.isPaused && gameState.turnTimeLeft > 0) {
       interval = setInterval(() => {
         decrementTimer();
         
@@ -40,7 +40,7 @@ const GameScreen: React.FC = () => {
         clearInterval(interval);
       }
     };
-  }, [gameState.isPlaying, gameState.turnTimeLeft, decrementTimer, playTick, playUrgentTick]);
+  }, [gameState.isPlaying, gameState.isPaused, gameState.turnTimeLeft, decrementTimer, playTick, playUrgentTick]);
 
   const renderScreen = () => {
     console.log('Rendering screen for phase:', gameState.gamePhase);

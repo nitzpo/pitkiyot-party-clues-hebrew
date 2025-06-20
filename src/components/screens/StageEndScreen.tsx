@@ -1,14 +1,13 @@
-
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Trophy, ArrowLeft, Star } from 'lucide-react';
+import { Trophy, ArrowLeft, Star, Home } from 'lucide-react';
 
 const StageEndScreen: React.FC = () => {
-  const { gameState, nextStage } = useGameState();
+  const { gameState, nextStage, updateGameState } = useGameState();
   const { playButtonClick, playWin } = useAudio();
 
   const sortedTeams = [...gameState.teams].sort((a, b) => b.score - a.score);
@@ -22,6 +21,11 @@ const StageEndScreen: React.FC = () => {
   const handleNext = () => {
     playButtonClick();
     nextStage();
+  };
+
+  const handleAbortGame = () => {
+    playButtonClick();
+    updateGameState({ gamePhase: 'home' });
   };
 
   return (
@@ -79,22 +83,44 @@ const StageEndScreen: React.FC = () => {
               </p>
             </Card>
 
-            <Button
-              onClick={handleNext}
-              className="game-button-primary w-full text-xl py-6"
-            >
-              <ArrowLeft className="ml-2 h-5 w-5" />
-              המשך לשלב הבא
-            </Button>
+            <div className="space-y-3">
+              <Button
+                onClick={handleNext}
+                className="game-button-primary w-full text-xl py-6"
+              >
+                <ArrowLeft className="ml-2 h-5 w-5" />
+                המשך לשלב הבא
+              </Button>
+
+              <Button
+                onClick={handleAbortGame}
+                variant="outline"
+                className="w-full gap-2"
+              >
+                <Home className="h-4 w-4" />
+                יציאה למסך הבית
+              </Button>
+            </div>
           </>
         ) : (
-          <Button
-            onClick={handleNext}
-            className="game-button-success w-full text-xl py-6"
-          >
-            <Trophy className="ml-2 h-5 w-5" />
-            סיים משחק!
-          </Button>
+          <div className="space-y-3">
+            <Button
+              onClick={handleNext}
+              className="game-button-success w-full text-xl py-6"
+            >
+              <Trophy className="ml-2 h-5 w-5" />
+              סיים משחק!
+            </Button>
+
+            <Button
+              onClick={handleAbortGame}
+              variant="outline"
+              className="w-full gap-2"
+            >
+              <Home className="h-4 w-4" />
+              יציאה למסך הבית
+            </Button>
+          </div>
         )}
       </Card>
     </div>

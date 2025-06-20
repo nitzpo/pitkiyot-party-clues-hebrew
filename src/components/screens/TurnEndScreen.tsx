@@ -1,14 +1,13 @@
-
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Trophy, Users, ArrowLeft } from 'lucide-react';
+import { Trophy, Users, ArrowLeft, Home } from 'lucide-react';
 
 const TurnEndScreen: React.FC = () => {
-  const { gameState, nextTurn } = useGameState();
+  const { gameState, nextTurn, updateGameState } = useGameState();
   const { playButtonClick } = useAudio();
 
   const currentTeam = gameState.teams[gameState.currentTeamIndex];
@@ -17,6 +16,11 @@ const TurnEndScreen: React.FC = () => {
   const handleNext = () => {
     playButtonClick();
     nextTurn();
+  };
+
+  const handleAbortGame = () => {
+    playButtonClick();
+    updateGameState({ gamePhase: 'home' });
   };
 
   return (
@@ -78,13 +82,24 @@ const TurnEndScreen: React.FC = () => {
           </div>
         </div>
 
-        <Button
-          onClick={handleNext}
-          className="game-button-primary w-full text-xl py-6"
-        >
-          <ArrowLeft className="ml-2 h-5 w-5" />
-          המשך למשחק
-        </Button>
+        <div className="space-y-3">
+          <Button
+            onClick={handleNext}
+            className="game-button-primary w-full text-xl py-6"
+          >
+            המשך למשחק
+            <ArrowLeft className="ml-2 h-5 w-5" />
+          </Button>
+
+          <Button
+            onClick={handleAbortGame}
+            variant="outline"
+            className="w-full gap-2"
+          >
+            <Home className="h-4 w-4" />
+            יציאה למסך הבית
+          </Button>
+        </div>
       </Card>
     </div>
   );
