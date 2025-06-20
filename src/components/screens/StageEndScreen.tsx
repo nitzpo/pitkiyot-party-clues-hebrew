@@ -91,15 +91,6 @@ const StageEndScreen: React.FC = () => {
                 <ArrowLeft className="ml-2 h-5 w-5" />
                 המשך לשלב הבא
               </Button>
-
-              <Button
-                onClick={handleAbortGame}
-                variant="outline"
-                className="w-full gap-2"
-              >
-                <Home className="h-4 w-4" />
-                יציאה למסך הבית
-              </Button>
             </div>
           </>
         ) : (
@@ -110,15 +101,6 @@ const StageEndScreen: React.FC = () => {
             >
               <Trophy className="ml-2 h-5 w-5" />
               סיים משחק!
-            </Button>
-
-            <Button
-              onClick={handleAbortGame}
-              variant="outline"
-              className="w-full gap-2"
-            >
-              <Home className="h-4 w-4" />
-              יציאה למסך הבית
             </Button>
           </div>
         )}

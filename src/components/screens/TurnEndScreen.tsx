@@ -90,15 +90,6 @@ const TurnEndScreen: React.FC = () => {
             המשך למשחק
             <ArrowLeft className="ml-2 h-5 w-5" />
           </Button>
-
-          <Button
-            onClick={handleAbortGame}
-            variant="outline"
-            className="w-full gap-2"
-          >
-            <Home className="h-4 w-4" />
-            יציאה למסך הבית
-          </Button>
         </div>
       </Card>
     </div>
