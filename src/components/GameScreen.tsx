@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useGameState } from '../hooks/useGameState';
 import { useAudio } from '../hooks/useAudio';
@@ -15,6 +14,11 @@ import SettingsScreen from './screens/SettingsScreen';
 const GameScreen: React.FC = () => {
   const { gameState, decrementTimer } = useGameState();
   const { playTick, playUrgentTick } = useAudio();
+
+  // Debug logging
+  useEffect(() => {
+    console.log('Game phase changed to:', gameState.gamePhase);
+  }, [gameState.gamePhase]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -39,6 +43,7 @@ const GameScreen: React.FC = () => {
   }, [gameState.isPlaying, gameState.turnTimeLeft, decrementTimer, playTick, playUrgentTick]);
 
   const renderScreen = () => {
+    console.log('Rendering screen for phase:', gameState.gamePhase);
     switch (gameState.gamePhase) {
       case 'setup':
         return <SetupScreen />;

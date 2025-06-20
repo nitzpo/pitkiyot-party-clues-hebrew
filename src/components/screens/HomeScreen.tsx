@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
@@ -10,18 +9,24 @@ const HomeScreen: React.FC = () => {
   const { playButtonClick } = useAudio();
 
   const handleNewGame = () => {
+    console.log('New Game button clicked');
     playButtonClick();
     updateGameState({ gamePhase: 'setup' });
+    console.log('Updated game phase to setup');
   };
 
   const handleRules = () => {
+    console.log('Rules button clicked');
     playButtonClick();
     updateGameState({ gamePhase: 'rules' });
+    console.log('Updated game phase to rules');
   };
 
   const handleSettings = () => {
+    console.log('Settings button clicked');
     playButtonClick();
     updateGameState({ gamePhase: 'settings' });
+    console.log('Updated game phase to settings');
   };
 
   return (
