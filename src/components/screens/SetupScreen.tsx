@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
@@ -43,8 +42,8 @@ const SetupScreen: React.FC = () => {
   };
 
   return (
-    <div className="h-dvh flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl p-6 animate-slide-in-right">
+    <div className={`h-dvh p-4 ${setupStep === 'notes' ? 'overflow-y-auto' : 'flex items-center justify-center'}`}>
+      <Card className={`w-full max-w-2xl p-6 animate-slide-in-right ${setupStep === 'notes' ? 'my-8' : ''}`}>
         <div className="mb-6">
           <h2 className="text-3xl font-bold text-center mb-2">הגדרת המשחק</h2>
           <div className="flex justify-center space-x-2 rtl:space-x-reverse">

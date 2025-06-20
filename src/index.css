@@ -1,9 +1,9 @@
+/* Hebrew and RTL Support */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Hebrew and RTL Support */
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap');
 
 @layer base {
   :root {
@@ -203,6 +203,11 @@
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100dvh;
+  }
+
+  /* Allow scrolling when explicitly enabled */
+  .overflow-y-auto {
+    overflow-y: auto !important;
   }
 
   /* Ensure h-dvh works properly on mobile */

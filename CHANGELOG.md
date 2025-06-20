@@ -13,6 +13,8 @@
 - **Fixed**: Body and HTML overflow settings to prevent unwanted scrolling
 - **Optimized**: Mobile viewport height handling for browsers with dynamic UI elements
 - **Added**: `overscroll-behavior: none` to prevent pull-to-refresh interference
+- **Enhanced**: NotesSetup page with full page scrolling when content exceeds screen height
+- **Improved**: SetupScreen conditionally enables outer scrolling for notes step while keeping teams step centered
 
 #### Mobile & Audio Experience Enhancements
 - **Fixed**: Custom notes reset buttons layout optimized for mobile screens
