@@ -20,6 +20,7 @@
 - **Fixed**: The `GameEndScreen` is now also scrollable to handle cases with many teams.
 - **Removed**: The team name editing functionality from `TeamSetup` has been removed to simplify the interface.
 - **Fixed**: A bug preventing the deletion of the first two teams has been resolved by improving the state loading logic.
+- **Fixed**: The `StageEndScreen` and `TurnEndScreen` are now also scrollable, ensuring all summary screens work correctly with a large number of teams.
 
 #### Mobile & Audio Experience Enhancements
 - **Fixed**: Custom notes reset buttons layout optimized for mobile screens
