@@ -15,6 +15,8 @@
 - **Added**: `overscroll-behavior: none` to prevent pull-to-refresh interference
 - **Enhanced**: NotesSetup page with full page scrolling when content exceeds screen height
 - **Improved**: SetupScreen conditionally enables outer scrolling for notes step while keeping teams step centered
+- **Fixed**: Centering and scrolling issues for long content pages like `NotesSetup` and `Rules`.
+- **Improved**: A new layout strategy now keeps content centered, but allows the full page to scroll when content overflows, providing a natural mobile experience.
 
 #### Mobile & Audio Experience Enhancements
 - **Fixed**: Custom notes reset buttons layout optimized for mobile screens

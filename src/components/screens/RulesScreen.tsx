@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { useGameState } from '../../hooks/useGameState';
 import { useAudio } from '../../hooks/useAudio';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 
 const RulesScreen: React.FC = () => {
   const { updateGameState } = useGameState();
@@ -16,9 +15,12 @@ const RulesScreen: React.FC = () => {
   };
 
   return (
-    <div className="h-dvh flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl p-6 animate-slide-in-right">
+    <div className="h-dvh flex items-center justify-center p-4 overflow-y-auto">
+      <Card className="w-full max-w-2xl p-6 animate-slide-in-right my-auto">
         <div className="mb-6">
+          <div className="flex justify-center items-center mb-4">
+            <BookOpen className="h-10 w-10 text-game-primary" />
+          </div>
           <h2 className="text-3xl font-bold text-center mb-6">חוקי המשחק</h2>
         </div>
 

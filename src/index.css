@@ -207,7 +207,7 @@
 
   /* Allow scrolling when explicitly enabled */
   .overflow-y-auto {
-    overflow-y: auto !important;
+    overflow-y: auto;
   }
 
   /* Ensure h-dvh works properly on mobile */
