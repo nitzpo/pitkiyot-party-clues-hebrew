@@ -7,6 +7,7 @@ import { Label } from '../ui/label';
 import { Card } from '../ui/card';
 import { Checkbox } from '../ui/checkbox';
 import { Slider } from '../ui/slider';
+import { Switch } from '../ui/switch';
 import { Plus, Shuffle, Trash2, Undo2 } from 'lucide-react';
 import notesData from '../../data/notes.json';
 
@@ -14,6 +15,7 @@ interface SavedGameSettings {
   selectedCategories: string[];
   customNotes: string[];
   noteCount: number;
+  familyFriendly: boolean;
 }
 
 const NotesSetup: React.FC = () => {
@@ -24,6 +26,7 @@ const NotesSetup: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['movies', 'people']);
   const [noteCount, setNoteCount] = useState([30]);
   const [customNotes, setCustomNotes] = useState<string[]>([]);
+  const [familyFriendly, setFamilyFriendly] = useState(false);
   const [newNote, setNewNote] = useState('');
   const [noteExistsError, setNoteExistsError] = useState(false);
   const [lastRemovedNote, setLastRemovedNote] = useState<string | null>(null);
@@ -40,6 +43,7 @@ const NotesSetup: React.FC = () => {
         setSelectedCategories(settings.selectedCategories || ['movies', 'people']);
         setCustomNotes(settings.customNotes || []);
         setNoteCount([settings.noteCount || 30]);
+        setFamilyFriendly(settings.familyFriendly === undefined ? true : settings.familyFriendly);
       } catch (error) {
         console.error('Failed to load saved settings:', error);
       }
@@ -53,20 +57,32 @@ const NotesSetup: React.FC = () => {
       const settings: SavedGameSettings = {
         selectedCategories,
         customNotes,
-        noteCount: noteCount[0]
+        noteCount: noteCount[0],
+        familyFriendly
       };
       localStorage.setItem('pitkiyot-game-settings', JSON.stringify(settings));
     }
-  }, [selectedCategories, customNotes, noteCount, isLoaded]);
+  }, [selectedCategories, customNotes, noteCount, familyFriendly, isLoaded]);
 
   const generateMixedNotes = () => {
-    const availableNotes = notesData.notes.filter(note => 
+    let availableNotes = notesData.notes;
+    
+    if (familyFriendly) {
+      availableNotes = availableNotes.filter(note => note.family_friendly);
+    }
+    
+    availableNotes = availableNotes.filter(note => 
       note.categories.some(cat => selectedCategories.includes(cat))
     );
     
     const shuffled = [...availableNotes].sort(() => Math.random() - 0.5);
     const categoryNotes = shuffled.slice(0, Math.max(0, noteCount[0] - customNotes.length));
-    const customNotesFormatted = customNotes.map(note => ({ note, categories: ['custom'] }));
+    
+    const customNotesFormatted = customNotes.map(note => ({ 
+      note, 
+      categories: ['custom'],
+      family_friendly: true // Custom notes are always considered family friendly for now
+    }));
     
     setNotes([...categoryNotes, ...customNotesFormatted]);
     playButtonClick();
@@ -151,6 +167,18 @@ const NotesSetup: React.FC = () => {
       </div>
       
       <div className="space-y-4">
+        {/* Family Friendly Toggle */}
+        <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
+          <Label htmlFor="family-friendly" className="font-semibold">
+            לכל המשפחה
+          </Label>
+          <Switch
+            id="family-friendly"
+            checked={familyFriendly}
+            onCheckedChange={setFamilyFriendly}
+          />
+        </div>
+
         {/* Category Selection */}
         <div className="space-y-3">
           <Label className="text-right block">בחר קטגוריות</Label>

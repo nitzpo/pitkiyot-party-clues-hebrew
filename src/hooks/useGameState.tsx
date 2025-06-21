@@ -9,6 +9,7 @@ export interface Team {
 export interface Note {
   note: string;
   categories: string[];
+  family_friendly: boolean;
   guessed?: boolean;
   skippedInTurn?: boolean; // Track if note was skipped in current turn
 }
