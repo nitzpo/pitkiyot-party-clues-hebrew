@@ -131,7 +131,7 @@ const TeamSetup: React.FC = () => {
           </p>
           {gameState.teams.length < 2 && (
             <p className="text-sm text-green-700 mt-1">
-              הוסף עוד {2 - gameState.teams.length} קבוצה/ות להתחלת המשחק
+              הוסף עוד {2 - gameState.teams.length} להתחלת המשחק
             </p>
           )}
         </div>

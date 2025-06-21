@@ -89,6 +89,13 @@ const SetupScreen: React.FC = () => {
               >
                 חזור
               </Button>
+
+              {!canStartGame && (
+              <p className="text-sm text-center text-muted-foreground">
+                {gameState.teams.length < 2 && "נדרשות לפחות 2 קבוצות"}
+                {gameState.teams.length >= 2 && gameState.notes.length < 10 && "נדרשים לפחות 10 פתקים"}
+              </p>
+            )}
               
               <Button
                 onClick={handleStartGame}
@@ -98,13 +105,6 @@ const SetupScreen: React.FC = () => {
                 התחילו לשחק!
               </Button>
             </div>
-            
-            {!canStartGame && (
-              <p className="text-sm text-center text-muted-foreground">
-                {gameState.teams.length < 2 && "נדרשות לפחות 2 קבוצות"}
-                {gameState.teams.length >= 2 && gameState.notes.length < 10 && "נדרשים לפחות 10 פתקים"}
-              </p>
-            )}
           </div>
         )}
       </Card>

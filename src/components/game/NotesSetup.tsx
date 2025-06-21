@@ -31,6 +31,7 @@ const NotesSetup: React.FC = () => {
   const [noteExistsError, setNoteExistsError] = useState(false);
   const [lastRemovedNote, setLastRemovedNote] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [notesNeedRegeneration, setNotesNeedRegeneration] = useState(false);
   
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -64,6 +65,14 @@ const NotesSetup: React.FC = () => {
     }
   }, [selectedCategories, customNotes, noteCount, familyFriendly, isLoaded]);
 
+  // Invalidate notes when settings change (but only after initial load)
+  useEffect(() => {
+    if (isLoaded && gameState.notes.length > 0) {
+      setNotes([]);
+      setNotesNeedRegeneration(true);
+    }
+  }, [selectedCategories, customNotes, noteCount, familyFriendly, isLoaded, setNotes]);
+
   const generateMixedNotes = () => {
     let availableNotes = notesData.notes;
     
@@ -85,6 +94,7 @@ const NotesSetup: React.FC = () => {
     }));
     
     setNotes([...categoryNotes, ...customNotesFormatted]);
+    setNotesNeedRegeneration(false);
     playButtonClick();
   };
 
@@ -285,18 +295,35 @@ const NotesSetup: React.FC = () => {
           className="game-button-primary w-full"
         >
           <Shuffle className="ml-2 h-4 w-4" />
-          צור פתקים למשחק
+          {notesNeedRegeneration ? 'צור פתקים חדשים למשחק' : 'צור פתקים למשחק'}
         </Button>
       </div>
       
-      <Card className="p-4 bg-blue-50">
+      <Card className={`p-4 ${notesNeedRegeneration ? 'bg-orange-50' : gameState.notes.length > 0 ? 'bg-blue-50' : 'bg-gray-50'}`}>
         <div className="text-center">
-          <p className="font-medium text-blue-900">
-            מוכן למשחק: {gameState.notes.length} פתקים
-          </p>
-          {gameState.notes.length < 15 && (
-            <p className="text-sm text-blue-700 mt-1">
-              מומלץ לפחות 15 פתקים למשחק מהנה
+          {notesNeedRegeneration ? (
+            <div>
+              <p className="font-medium text-orange-900">
+                ההגדרות השתנו - יש לייצר פתקים חדשים
+              </p>
+              <p className="text-sm text-orange-700 mt-1">
+                לחץ על "צור פתקים חדשים למשחק" כדי להמשיך
+              </p>
+            </div>
+          ) : gameState.notes.length > 0 ? (
+            <div>
+              <p className="font-medium text-blue-900">
+                מוכן למשחק: {gameState.notes.length} פתקים
+              </p>
+              {gameState.notes.length < 15 && (
+                <p className="text-sm text-blue-700 mt-1">
+                  מומלץ לפחות 15 פתקים למשחק מהנה
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="font-medium text-gray-700">
+              לחץ על "צור פתקים למשחק" כדי להתחיל
             </p>
           )}
         </div>
