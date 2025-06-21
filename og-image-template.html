@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פתקיות - Open Graph Image Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            direction: rtl;
+        }
+        
+        .og-container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .og-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><rect width="11" height="11" rx="2"/></g></g></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .main-title {
+            font-size: 120px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            z-index: 2;
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .description {
+            font-size: 32px;
+            font-weight: 400;
+            opacity: 0.8;
+            max-width: 900px;
+            line-height: 1.4;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .decorative-elements {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            font-size: 80px;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        
+        .decorative-elements-left {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            font-size: 60px;
+            opacity: 0.2;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="og-container">
+        <div class="decorative-elements">🎯🎪🎉</div>
+        <div class="decorative-elements-left">🎲🎭🎊</div>
+        
+        <h1 class="main-title">פתקיות</h1>
+        <h2 class="subtitle">משחק חברתי מהנה</h2>
+        <p class="description">שחקו בקבוצות, נחשו מילים ותהנו עם החברים והמשפחה</p>
+    </div>
+</body>
+</html> 

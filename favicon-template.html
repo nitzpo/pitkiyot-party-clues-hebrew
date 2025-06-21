@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פתקיות - Favicon Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .favicon-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            text-align: center;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .favicon-16 {
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+        }
+        
+        .favicon-32 {
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+        }
+        
+        .favicon-180 {
+            width: 180px;
+            height: 180px;
+            font-size: 80px;
+            border-radius: 20px;
+        }
+        
+        .label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .favicon-set {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .instructions {
+            width: 100%;
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            direction: rtl;
+        }
+        
+        .instructions h2 {
+            margin-bottom: 10px;
+            color: #1976d2;
+        }
+        
+        .instructions ol {
+            text-align: right;
+            direction: rtl;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h2>הוראות ליצירת Favicon</h2>
+        <ol>
+            <li>צלם screenshot של כל אייקון בנפרד (לחץ F12 ובחר "Screenshot node")</li>
+            <li>שמור כל תמונה בשם המתאים:</li>
+            <ul>
+                <li>favicon-16x16.png (16x16 פיקסלים)</li>
+                <li>favicon-32x32.png (32x32 פיקסלים)</li>
+                <li>apple-touch-icon.png (180x180 פיקסלים)</li>
+            </ul>
+            <li>העבר את הקבצים לתיקיה public/</li>
+        </ol>
+    </div>
+    
+    <div class="favicon-set">
+        <div class="label">16x16 פיקסלים</div>
+        <div class="favicon-container favicon-16">פ</div>
+    </div>
+    
+    <div class="favicon-set">
+        <div class="label">32x32 פיקסלים</div>
+        <div class="favicon-container favicon-32">פ</div>
+    </div>
+    
+    <div class="favicon-set">
+        <div class="label">180x180 פיקסלים (Apple Touch Icon)</div>
+        <div class="favicon-container favicon-180">פ</div>
+    </div>
+</body>
+</html> 
