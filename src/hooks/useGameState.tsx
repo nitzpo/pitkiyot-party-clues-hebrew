@@ -85,7 +85,7 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
   const addTeam = useCallback((name: string) => {
     setGameState(prev => ({
       ...prev,
-      teams: [...prev.teams, { id: Date.now().toString(), name, score: 0 }]
+      teams: [...prev.teams, { id: `${Date.now()}-${Math.random()}`, name, score: 0 }]
     }));
   }, []);
 
