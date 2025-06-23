@@ -104,7 +104,7 @@ const GameplayScreen: React.FC = () => {
       {/* Current Note */}
       <div className="flex-1 flex items-center justify-center mb-2 md:mb-4 min-h-0">
         <Card className="w-full max-w-md p-4 md:p-6 text-center bg-white shadow-xl border-2 border-game-primary mx-2">
-          <div className="text-lg md:text-3xl font-bold text-game-primary mb-2 md:mb-4">
+          <div className="text-2xl md:text-5xl font-bold text-game-primary mb-2 md:mb-4">
             {gameState.isPaused ? 'המשחק מושהה' : (currentNote?.note || 'אין פתקים נוספים')}
           </div>
           
