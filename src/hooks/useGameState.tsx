@@ -121,8 +121,15 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
       }));
       const shuffledNotes = [...resetNotes].sort(() => Math.random() - 0.5);
       
+      // Reset all teams' scores to 0
+      const resetTeams = gameState.teams.map(team => ({ 
+        ...team, 
+        score: 0 
+      }));
+      
       setGameState(prev => ({ 
         ...prev, 
+        teams: resetTeams,
         notes: shuffledNotes,
         currentStage: 1,
         currentTeamIndex: 0,
@@ -211,7 +218,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
             teams: newTeams,
             gamePhase: 'stageEnd',
             isPlaying: false,
-            isPaused: false
+            isPaused: false,
+            currentTurnScore: prev.currentTurnScore + 1
           };
         }
         
@@ -221,7 +229,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
           teams: newTeams,
           gamePhase: 'turnEnd',
           isPlaying: false,
-          isPaused: false
+          isPaused: false,
+          currentTurnScore: prev.currentTurnScore + 1
         };
       }
 
@@ -262,7 +271,8 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
           teams: newTeams,
           gamePhase: 'turnEnd',
           isPlaying: false,
-          isPaused: false
+          isPaused: false,
+          currentTurnScore: prev.currentTurnScore - 1
         };
       }
 
