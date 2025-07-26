@@ -23,7 +23,7 @@ export interface GameState {
   turnTimeLeft: number;
   isPlaying: boolean;
   isPaused: boolean;
-  gamePhase: 'home' | 'setup' | 'ready' | 'playing' | 'turnEnd' | 'stageEnd' | 'gameEnd' | 'rules' | 'settings';
+  gamePhase: 'home' | 'setup' | 'teamSelection' | 'ready' | 'playing' | 'turnEnd' | 'stageEnd' | 'gameEnd' | 'rules' | 'settings';
   currentNoteIndex: number;
 }
 
@@ -127,17 +127,20 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
         score: 0 
       }));
       
+      // Randomize starting team for first stage
+      const randomStartingTeamIndex = Math.floor(Math.random() * gameState.teams.length);
+      
       setGameState(prev => ({ 
         ...prev, 
         teams: resetTeams,
         notes: shuffledNotes,
         currentStage: 1,
-        currentTeamIndex: 0,
+        currentTeamIndex: randomStartingTeamIndex,
         currentTurnScore: 0,
         turnTimeLeft: 60,
         isPlaying: false,
         isPaused: false,
-        gamePhase: 'ready',
+        gamePhase: 'teamSelection',
         currentNoteIndex: 0
       }));
     }
@@ -336,11 +339,14 @@ export const GameStateProvider: React.FC<{ children: ReactNode }> = ({ children 
       // Shuffle notes for new stage
       const shuffledNotes = shuffleArray(prev.notes).map(note => ({ ...note, guessed: false, skippedInTurn: false }));
       
+      // Advance to next team in cycle for new stage
+      const nextTeamIndex = (prev.currentTeamIndex + 1) % prev.teams.length;
+      
       return {
         ...prev,
         currentStage: prev.currentStage + 1,
         gamePhase: 'ready',
-        currentTeamIndex: 0,
+        currentTeamIndex: nextTeamIndex,
         currentTurnScore: 0,
         currentNoteIndex: 0,
         notes: shuffledNotes

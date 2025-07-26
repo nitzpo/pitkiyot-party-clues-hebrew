@@ -3,6 +3,7 @@ import { useGameState } from '../hooks/useGameState';
 import { useAudio } from '../hooks/useAudio';
 import HomeScreen from './screens/HomeScreen';
 import SetupScreen from './screens/SetupScreen';
+import TeamSelectionScreen from './screens/TeamSelectionScreen';
 import ReadyScreen from './screens/ReadyScreen';
 import GameplayScreen from './screens/GameplayScreen';
 import TurnEndScreen from './screens/TurnEndScreen';
@@ -47,6 +48,8 @@ const GameScreen: React.FC = () => {
     switch (gameState.gamePhase) {
       case 'setup':
         return <SetupScreen />;
+      case 'teamSelection':
+        return <TeamSelectionScreen />;
       case 'ready':
         return <ReadyScreen />;
       case 'playing':

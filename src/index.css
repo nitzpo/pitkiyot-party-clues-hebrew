@@ -179,6 +179,17 @@
   .animate-pulse-gentle {
     animation: pulse-gentle 3s ease-in-out infinite;
   }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkle {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    25% { transform: scale(1.1) rotate(90deg); opacity: 0.8; }
+    50% { transform: scale(1.2) rotate(180deg); opacity: 0.6; }
+    75% { transform: scale(1.1) rotate(270deg); opacity: 0.8; }
+  }
 }
 
 /* Hebrew text optimization */
