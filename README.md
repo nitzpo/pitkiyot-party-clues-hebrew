@@ -1,4 +1,4 @@
-# פתקיות - Hebrew Party Game
+# Piykiyot (פתקיות) - Hebrew Party Game
 
 A fun and engaging Hebrew party game where teams compete through three exciting stages of charades-style gameplay!
 
@@ -6,11 +6,11 @@ A fun and engaging Hebrew party game where teams compete through three exciting 
 
 ## About the Game
 
-**פתקיות** (Pitkiyot) is a popular Hebrew party game perfect for groups. Teams take turns acting out words and phrases through three progressively challenging stages:
+**Pitkiyot** (פתקיות) is a popular Hebrew party game perfect for groups. Teams take turns acting out words and phrases through three progressively challenging stages:
 
-1. **דיבור חופשי** - Free speech (describe without saying the word)
-2. **מילה אחת** - One word only
-3. **פנטומימה** - Pantomime (no words, gestures only)
+1. Free speech (describe without saying the word)
+2. One word only
+3. Pantomime (no words, gestures only)
 
 ### Features
 - 🎯 Multiple teams support
